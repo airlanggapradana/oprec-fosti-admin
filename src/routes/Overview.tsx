@@ -2,6 +2,7 @@ import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx
 import {Building, Pen, Users} from "lucide-react";
 import {useFetchRecruitment} from "@/utils/query.ts";
 import Cookies from "js-cookie";
+import {ChartLineDots} from "@/components/chart-dot-vertical.tsx";
 
 const Overview = () => {
   const token = Cookies.get("token");
@@ -10,6 +11,16 @@ const Overview = () => {
   }
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const {data: recruitment, error, isLoading} = useFetchRecruitment(token as string)
+
+  const dailyRegistrations = Array.from({length: 8}).map((_, i) => {
+    const date = new Date();
+    date.setDate(date.getDate() - i);
+    const tanggal = date.toLocaleDateString().slice(0, 10);
+    const jumlah = recruitment
+      ? recruitment.filter(d => new Date(d.createdAt).toLocaleDateString().slice(0, 10) === tanggal).length
+      : 0;
+    return {tanggal, jumlah};
+  }).reverse();
   return (
     <div className="space-y-6">
       <div>
@@ -113,6 +124,9 @@ const Overview = () => {
             )}
           </CardContent>
         </Card>
+        <div className="col-span-2">
+          <ChartLineDots chartData={dailyRegistrations}/>
+        </div>
       </div>
     </div>
   );
