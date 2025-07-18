@@ -1,6 +1,6 @@
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx";
 import {Building, Newspaper, Pen, Settings, Users} from "lucide-react";
-import {useFetchRecruitment} from "@/utils/query.ts";
+import {useExportAsExcel, useFetchRecruitment} from "@/utils/query.ts";
 import Cookies from "js-cookie";
 import {ChartBarDefault} from "@/components/chart-bar-vertical.tsx";
 import {Button} from "@/components/ui/button.tsx";
@@ -12,6 +12,7 @@ const Overview = () => {
   }
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const {data: recruitment, error, isLoading} = useFetchRecruitment(token as string)
+  const {mutateAsync: handleExport, isPending} = useExportAsExcel(token as string);
 
   const dailyRegistrations = Array.from({length: 10}).map((_, i) => {
     const date = new Date();
@@ -141,7 +142,7 @@ const Overview = () => {
             <Settings className="h-4 w-4 text-muted-foreground"/>
           </CardHeader>
           <CardContent className="flex flex-col gap-2">
-            <Button>
+            <Button onClick={() => handleExport()} disabled={isPending}>
               <span><Newspaper/></span>Export as Excel
             </Button>
             <Button className="mt-2" variant={"outline"}>

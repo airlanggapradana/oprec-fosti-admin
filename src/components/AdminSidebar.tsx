@@ -6,9 +6,12 @@ import {
   SidebarMenuButton,
   SidebarMenuItem, SidebarRail
 } from "@/components/ui/sidebar.tsx";
-import {BarChart3, LogOut, Store, Users} from "lucide-react";
+import {BarChart3, LogOut, Users} from "lucide-react";
 import {useLocation, useNavigate} from "react-router";
 import Cookies from "js-cookie";
+import {useTheme} from "@/components/theme-provider.tsx";
+import logoPutih from "../LOGO FOSTI PUTIH.png"
+import logo from "../logo.png"
 
 const menuItems = [
   {
@@ -26,18 +29,20 @@ const menuItems = [
 const AdminSidebar = () => {
   const {pathname} = useLocation();
   const navigate = useNavigate();
+  const {theme} = useTheme();
   return (
     <Sidebar>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" className="data-[state=open]:bg-sidebar-accent">
-              <div
-                className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                <Store className="size-4"/>
-              </div>
-              <div className="flex flex-col gap-0.5 leading-none">
-                <span className="font-semibold">Oprec Fosti {new Date().getFullYear()} Admin</span>
+            <SidebarMenuButton size="lg" className="data-[state=open]:bg-sidebar-accent p-2 space-x-2">
+              <img
+                src={theme === "dark" ? logoPutih : logo}
+                alt="Logo"
+                className="h-10 w-auto"
+              />
+              <div className="flex flex-col gap-1 leading-none">
+                <span className="font-semibold">Oprec Admin</span>
                 <span className="text-xs">Dashboard System</span>
               </div>
             </SidebarMenuButton>
