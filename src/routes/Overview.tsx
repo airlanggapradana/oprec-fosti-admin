@@ -13,7 +13,7 @@ const Overview = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const {data: recruitment, error, isLoading} = useFetchRecruitment(token as string)
 
-  const dailyRegistrations = Array.from({length: 8}).map((_, i) => {
+  const dailyRegistrations = Array.from({length: 10}).map((_, i) => {
     const date = new Date();
     date.setDate(date.getDate() - i);
     const tanggal = date.toLocaleDateString().slice(0, 10);
@@ -89,12 +89,12 @@ const Overview = () => {
 
       </div>
       <div className="grid gap-4 md:grid-cols-4">
-        <Card className="col-span-1">
+        <Card className="col-span-1 ">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Aktivitas Terakhir</CardTitle>
             <Pen className="h-4 w-4 text-muted-foreground"/>
           </CardHeader>
-          <CardContent>
+          <CardContent className="max-h-[530px] overflow-y-auto">
             {isLoading ? (
               <div className="text-2xl font-bold animate-pulse">Loading...</div>
             ) : error ? (
