@@ -1,8 +1,9 @@
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx";
-import {Building, Pen, Users} from "lucide-react";
+import {Building, Newspaper, Pen, Settings, Users} from "lucide-react";
 import {useFetchRecruitment} from "@/utils/query.ts";
 import Cookies from "js-cookie";
-import {ChartLineDots} from "@/components/chart-dot-vertical.tsx";
+import {ChartBarDefault} from "@/components/chart-bar-vertical.tsx";
+import {Button} from "@/components/ui/button.tsx";
 
 const Overview = () => {
   const token = Cookies.get("token");
@@ -99,34 +100,55 @@ const Overview = () => {
             ) : error ? (
               <div className="text-red-500 text-2xl font-bold">Error loading data</div>
             ) : recruitment ? (
-              recruitment.map((d) => (
-                <div key={d.id} className="flex items-center gap-3 py-2 border-b last:border-0">
-                  <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                    {d.nama.charAt(0).toUpperCase()}
+              recruitment
+                .filter(d => {
+                  const createdAt = new Date(d.createdAt);
+                  const tenDaysAgo = new Date();
+                  tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
+                  return createdAt >= tenDaysAgo;
+                })
+                .map((d) => (
+                  <div key={d.id} className="flex items-center gap-3 py-2 border-b last:border-0">
+                    <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                      {d.nama.charAt(0).toUpperCase()}
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-medium text-sm">{d.nama} <span
+                        className="font-normal italic">telah mendaftar</span></p>
+                      <p className="text-xs text-muted-foreground flex items-center gap-1">
+                        <Building className="h-3 w-3"/> {d.fakultas} · {new Date(d.createdAt).toLocaleString("id-ID", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit"
+                      })}
+                      </p>
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <p className="font-medium text-sm">{d.nama} <span
-                      className="font-normal italic">telah mendaftar</span></p>
-                    <p className="text-xs text-muted-foreground flex items-center gap-1">
-                      <Building className="h-3 w-3"/> {d.fakultas} · {new Date(d.createdAt).toLocaleString("id-ID", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                      hour: "2-digit",
-                      minute: "2-digit"
-                    })}
-                    </p>
-                  </div>
-                </div>
-              ))
+                ))
             ) : (
               <div className="text-2xl font-bold">Belum ada aktivitas...</div>
             )}
           </CardContent>
         </Card>
         <div className="col-span-2">
-          <ChartLineDots chartData={dailyRegistrations}/>
+          <ChartBarDefault chartData={dailyRegistrations}/>
         </div>
+        <Card className="col-span-1">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Quick Buttons</CardTitle>
+            <Settings className="h-4 w-4 text-muted-foreground"/>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-2">
+            <Button>
+              <span><Newspaper/></span>Export as Excel
+            </Button>
+            <Button className="mt-2" variant={"outline"}>
+              <span><Pen/></span>Manage Recruitment
+            </Button>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
