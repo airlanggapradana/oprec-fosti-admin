@@ -1,9 +1,15 @@
-function App() {
+import {Routes, Route} from "react-router";
+import RootLayout from "@/routes/RootLayout.tsx";
+import Overview from "@/routes/Overview.tsx";
 
+function App() {
   return (
-    <main className="w-full h-screen flex items-center text-3xl justify-center font-bold text-indigo-500">
-      Hello World!
-    </main>
+    <Routes>
+      <Route element={<RootLayout/>}>
+        <Route path={"/"} element={<Overview/>}/>
+        <Route path={"/mahasiswa"} element={<p>page mahasiswa</p>}/>
+      </Route>
+    </Routes>
   )
 }
 
