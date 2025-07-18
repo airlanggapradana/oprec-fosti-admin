@@ -1,13 +1,14 @@
 import {
   Sidebar,
-  SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
+  SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem, SidebarRail
 } from "@/components/ui/sidebar.tsx";
-import {BarChart3, Store, Users} from "lucide-react";
+import {BarChart3, LogOut, Store, Users} from "lucide-react";
 import {useLocation, useNavigate} from "react-router";
+import Cookies from "js-cookie";
 
 const menuItems = [
   {
@@ -60,6 +61,22 @@ const AdminSidebar = () => {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton onClick={() => {
+                  Cookies.remove("token");
+                  navigate("/")
+                }}>
+                  <span className="flex items-center gap-1 font-normal"><LogOut className="size-4 mr-2"/>Logout</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarFooter>
       <SidebarRail/>
     </Sidebar>
   );

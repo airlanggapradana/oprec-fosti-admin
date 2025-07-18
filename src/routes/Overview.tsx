@@ -1,56 +1,116 @@
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx";
-import {DollarSign, Package, ShoppingCart, Users} from "lucide-react";
+import {Building, Pen, Users} from "lucide-react";
+import {useFetchRecruitment} from "@/utils/query.ts";
+import Cookies from "js-cookie";
 
 const Overview = () => {
+  const token = Cookies.get("token");
+  if (!token) {
+    return <div className="text-red-500">You must be logged in to view this page.</div>;
+  }
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const {data: recruitment, error, isLoading} = useFetchRecruitment(token as string)
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-        <p className="text-muted-foreground">Welcome to your cashier system admin panel</p>
+        <p className="text-muted-foreground">Selamat Datang di Dashboard Admin Oprec
+          Fosti {new Date().getFullYear()}</p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground"/>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">$45,231.89</div>
-            <p className="text-xs text-muted-foreground">+20.1% from last month</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Products</CardTitle>
-            <Package className="h-4 w-4 text-muted-foreground"/>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">1,234</div>
-            <p className="text-xs text-muted-foreground">+12 new this week</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Orders</CardTitle>
-            <ShoppingCart className="h-4 w-4 text-muted-foreground"/>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">573</div>
-            <p className="text-xs text-muted-foreground">+201 since yesterday</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Customers</CardTitle>
+            <CardTitle className="text-sm font-medium">Total Pendaftar</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground"/>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">2,350</div>
-            <p className="text-xs text-muted-foreground">+180 new customers</p>
+            {isLoading ? (
+              <div className="text-2xl font-bold animate-pulse">Loading...</div>
+            ) : error ? (
+              <div className="text-red-500 text-2xl font-bold">Error loading data</div>
+            ) : recruitment ? (
+              <>
+                <div className="text-2xl font-bold">{recruitment.length}</div>
+                <p className="text-xs text-muted-foreground">
+                  +{recruitment.filter(d => {
+                  const createdAt = new Date(d.createdAt);
+                  const tenDaysAgo = new Date();
+                  tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
+                  return createdAt >= tenDaysAgo;
+                }).length} pendaftar dalam 10 hari terakhir
+                </p>
+              </>
+            ) : (
+              <div className="text-2xl font-bold">Belum ada pendaftar...</div>
+            )}
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Fakultas</CardTitle>
+            <Building className="h-4 w-4 text-muted-foreground"/>
+          </CardHeader>
+          <CardContent>
+            {isLoading ? (
+              <div className="text-2xl font-bold animate-pulse">Loading...</div>
+            ) : error ? (
+              <div className="text-red-500 text-2xl font-bold">Error loading data</div>
+            ) : recruitment ? (
+              <>
+                <div className="text-2xl font-bold">{[...new Set(recruitment.map(d => d.fakultas))].length}</div>
+                <p className="text-xs text-muted-foreground">
+                  +{recruitment.filter(d => {
+                  const createdAt = new Date(d.createdAt);
+                  const tenDaysAgo = new Date();
+                  tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
+                  return createdAt >= tenDaysAgo;
+                }).length} pendaftar dalam 10 hari terakhir
+                </p>
+              </>
+            ) : (
+              <div className="text-2xl font-bold">Belum ada pendaftar...</div>
+            )}
+          </CardContent>
+        </Card>
+
+      </div>
+      <div className="grid gap-4 md:grid-cols-4">
+        <Card className="col-span-1">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Aktivitas Terakhir</CardTitle>
+            <Pen className="h-4 w-4 text-muted-foreground"/>
+          </CardHeader>
+          <CardContent>
+            {isLoading ? (
+              <div className="text-2xl font-bold animate-pulse">Loading...</div>
+            ) : error ? (
+              <div className="text-red-500 text-2xl font-bold">Error loading data</div>
+            ) : recruitment ? (
+              recruitment.map((d) => (
+                <div key={d.id} className="flex items-center gap-3 py-2 border-b last:border-0">
+                  <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                    {d.nama.charAt(0).toUpperCase()}
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-medium text-sm">{d.nama} <span
+                      className="font-normal italic">telah mendaftar</span></p>
+                    <p className="text-xs text-muted-foreground flex items-center gap-1">
+                      <Building className="h-3 w-3"/> {d.fakultas} · {new Date(d.createdAt).toLocaleString("id-ID", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit"
+                    })}
+                    </p>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="text-2xl font-bold">Belum ada aktivitas...</div>
+            )}
           </CardContent>
         </Card>
       </div>
