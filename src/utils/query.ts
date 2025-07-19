@@ -1,8 +1,9 @@
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import axios from "axios";
-import {VITE_BASE_API_URL} from "@/env.ts";
+import {VITE_BASE_API_URL, VITE_PUBLIC_KEY, VITE_SERVICE_ID, VITE_TEMPLATE_ID} from "@/env.ts";
 import type {RecruitmentResponse} from "@/types/recruitment.type.ts";
 import type {RecruitmentSchema} from "@/zod/validation.schema.ts";
+import type {SeleksiResponse} from "@/types/seleksi.type.ts";
 
 export function useFetchRecruitment(token: string) {
   return useQuery({
@@ -48,7 +49,7 @@ export function useExportAsExcel(token: string) {
   })
 }
 
-export function useAddPendaftar(token: string) {
+export function useAddPendaftar(token: string, setIsAddDialogOpen: React.Dispatch<React.SetStateAction<boolean>>) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (pendaftar: RecruitmentSchema) => {
@@ -66,6 +67,7 @@ export function useAddPendaftar(token: string) {
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({queryKey: ["recruitment"]});
+      setIsAddDialogOpen(false); // Close the dialog after successful addition
     }
   })
 }
@@ -106,6 +108,44 @@ export function useDeletePendaftar(token: string) {
         },
       );
       return response.data;
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({queryKey: ["recruitment"]});
+    }
+  })
+}
+
+export function useSeleksiPendaftar(token: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      try {
+        const response = await axios.put(
+          `${VITE_BASE_API_URL}/api/recruitment/seleksi/${id}`,
+          {
+            status: "ACCEPTED"
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`,
+            },
+            method: "PUT"
+          },
+        ).then(res => res.data as SeleksiResponse);
+
+        await axios.post(`https://api.emailjs.com/api/v1.0/email/send`, {
+          service_id: VITE_SERVICE_ID,
+          template_id: VITE_TEMPLATE_ID,
+          user_id: VITE_PUBLIC_KEY,
+          template_params: {
+            nama: response.data.nama,
+            email: response.data.email,
+          }
+        })
+      } catch (e) {
+        throw new Error(`Error during selection: ${e instanceof Error ? e.message : "Unknown error"}`);
+      }
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({queryKey: ["recruitment"]});

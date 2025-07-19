@@ -1,9 +1,9 @@
-export interface RecruitmentResponse {
+export interface SeleksiResponse {
   message: string;
-  data: Pendaftar[];
+  data: Pendaftar;
 }
 
-export interface Pendaftar {
+interface Pendaftar {
   id: string;
   nama: string;
   email: string;
@@ -14,7 +14,7 @@ export interface Pendaftar {
   motivasi: string;
   fakultas: string;
   prodi: string;
-  status: 'PENDING' | 'ACCEPTED' | 'REJECTED';
+  status: string;
   createdAt: Date;
   updatedAt: Date;
 }

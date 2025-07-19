@@ -1,7 +1,7 @@
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {Edit, Eye, Plus, Search, Trash2} from "lucide-react";
-import {useDeletePendaftar, useFetchRecruitment} from "@/utils/query.ts";
+import {CheckIcon, Edit, Eye, Plus, Search, Trash2} from "lucide-react";
+import {useDeletePendaftar, useFetchRecruitment, useSeleksiPendaftar} from "@/utils/query.ts";
 import Cookies from "js-cookie";
 import PendaftaranDialog from "@/components/PendaftaranDialog.tsx";
 import {useState} from "react";
@@ -17,6 +17,7 @@ import {
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card.tsx";
 import {Input} from "@/components/ui/input.tsx";
 import {Label} from "@/components/ui/label.tsx";
+import {Badge} from "@/components/ui/badge.tsx";
 
 const TabelPendaftaran = () => {
   const [searchTerm, setSearchTerm] = useState("")
@@ -35,11 +36,14 @@ const TabelPendaftaran = () => {
     (m) =>
       m.nama.toLowerCase().includes(searchTerm.toLowerCase()) ||
       m.nim.includes(searchTerm) ||
-      m.email.toLowerCase().includes(searchTerm.toLowerCase()),
+      m.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      m.fakultas.toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const {mutateAsync: handleDelete, isPending} = useDeletePendaftar(token as string);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const {mutateAsync: handleSeleksi, isPending: isPendingAccepted} = useSeleksiPendaftar(token as string);
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -59,7 +63,7 @@ const TabelPendaftaran = () => {
               <DialogTitle>Tambah Pendaftar Baru</DialogTitle>
               <DialogDescription>Masukkan informasi pendaftar baru</DialogDescription>
             </DialogHeader>
-            <PendaftaranDialog/>
+            <PendaftaranDialog setIsAddDialogOpen={setIsAddDialogOpen}/>
           </DialogContent>
         </Dialog>
       </div>
@@ -87,18 +91,26 @@ const TabelPendaftaran = () => {
                 <TableHead>Email</TableHead>
                 <TableHead>Fakultas</TableHead>
                 <TableHead>Program Studi</TableHead>
+                <TableHead>Status</TableHead>
                 <TableHead>Aksi</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {recruitment && filteredMahasiswa ? (
-                filteredMahasiswa.map((m) => (
+              {Array.isArray(filteredMahasiswa) && filteredMahasiswa.length > 0 && recruitment ? (
+                filteredMahasiswa?.map((m) => (
                   <TableRow key={m.id}>
                     <TableCell className="font-medium">{m.nim}</TableCell>
                     <TableCell>{m.nama}</TableCell>
                     <TableCell>{m.email}</TableCell>
                     <TableCell>{m.fakultas}</TableCell>
                     <TableCell>{m.prodi}</TableCell>
+                    <TableCell>
+                      <Badge
+                        variant={m.status === 'ACCEPTED' ? 'default' : m.status === 'REJECTED' ? 'destructive' : 'secondary'}
+                      >
+                        {m.status}
+                      </Badge>
+                    </TableCell>
                     <TableCell>
                       <div className="flex items-center space-x-2">
                         <Button
@@ -110,6 +122,14 @@ const TabelPendaftaran = () => {
                           }}
                         >
                           <Eye className="h-4 w-4"/>
+                        </Button>
+                        <Button
+                          variant={"ghost"}
+                          size="sm"
+                          disabled={m.status === 'ACCEPTED' || m.status === 'REJECTED' || isPendingAccepted}
+                          onClick={() => handleSeleksi(m.id)}
+                        >
+                          <CheckIcon className="h-4 w-4"/>
                         </Button>
                         <Button
                           variant="ghost"
@@ -128,10 +148,22 @@ const TabelPendaftaran = () => {
                     </TableCell>
                   </TableRow>
                 ))
+              ) : error ? (
+                <TableRow>
+                  <TableCell colSpan={7} className="text-red-500 text-center">
+                    Error loading data
+                  </TableCell>
+                </TableRow>
+              ) : isLoading ? (
+                <TableRow>
+                  <TableCell colSpan={7} className="text-center">
+                    Loading...
+                  </TableCell>
+                </TableRow>
               ) : (
                 <TableRow>
                   <TableCell colSpan={7} className="text-center">
-                    {isLoading ? "Loading..." : error ? "Error loading data" : "No data found"}
+                    No data found
                   </TableCell>
                 </TableRow>
               )}
@@ -147,7 +179,8 @@ const TabelPendaftaran = () => {
             <DialogTitle>Edit Mahasiswa</DialogTitle>
             <DialogDescription>Ubah informasi mahasiswa</DialogDescription>
           </DialogHeader>
-          {selectedMahasiswa && <PendaftaranDialog pendaftar={selectedMahasiswa}/>}
+          {selectedMahasiswa &&
+              <PendaftaranDialog pendaftar={selectedMahasiswa} setIsAddDialogOpen={setIsAddDialogOpen}/>}
         </DialogContent>
       </Dialog>
 

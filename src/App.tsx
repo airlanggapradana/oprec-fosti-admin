@@ -4,6 +4,7 @@ import Overview from "@/routes/Overview.tsx";
 import Cookies from "js-cookie";
 import {useEffect} from "react";
 import Login from "@/routes/Login.tsx";
+import TabelPendaftaran from "@/components/TabelPendaftaran.tsx";
 
 function App() {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ function App() {
     <Routes>
       <Route element={<RootLayout/>}>
         <Route path={"/"} element={<Overview/>}/>
-        <Route path={"/mahasiswa"} element={<p>page mahasiswa</p>}/>
+        <Route path={"/mahasiswa"} element={<TabelPendaftaran/>}/>
       </Route>
       <Route path={"/login"} element={<Login/>}/>
     </Routes>

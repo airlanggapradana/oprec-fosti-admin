@@ -110,6 +110,7 @@ const Overview = () => {
                   tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
                   return createdAt >= tenDaysAgo;
                 })
+                .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
                 .map((d) => (
                   <div key={d.id} className="flex items-center gap-3 py-2 border-b last:border-0">
                     <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
@@ -145,7 +146,7 @@ const Overview = () => {
           </CardHeader>
           <CardContent className="flex flex-col gap-2">
             <Button onClick={() => handleExport()} disabled={isPending}>
-              <span><Newspaper/></span>Export as Excel
+              <span><Newspaper/></span>{isPending ? "Exporting..." : "Export as Excel"}
             </Button>
             <Button className="mt-2" variant={"outline"}>
               <span><Pen/></span>Manage Recruitment
@@ -153,7 +154,7 @@ const Overview = () => {
           </CardContent>
         </Card>
       </div>
-      
+
       <TabelPendaftaran/>
     </div>
   );

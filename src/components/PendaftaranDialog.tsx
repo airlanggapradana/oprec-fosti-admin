@@ -11,10 +11,11 @@ import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/
 import {Textarea} from "@/components/ui/textarea.tsx";
 
 interface PendaftaranDialogProps {
+  setIsAddDialogOpen: React.Dispatch<React.SetStateAction<boolean>>
   pendaftar?: Pendaftar
 }
 
-const PendaftaranDialog = ({pendaftar}: PendaftaranDialogProps) => {
+const PendaftaranDialog = ({pendaftar, setIsAddDialogOpen}: PendaftaranDialogProps) => {
   const token = Cookies.get("token");
   const form = useForm<RecruitmentSchema | Partial<RecruitmentSchema>>({
     defaultValues: {
@@ -26,12 +27,13 @@ const PendaftaranDialog = ({pendaftar}: PendaftaranDialogProps) => {
       alamat: pendaftar ? pendaftar.alamat : "",
       gender: pendaftar ? pendaftar.gender as "LAKI_LAKI" | "PEREMPUAN" : undefined,
       no_telepon: pendaftar ? pendaftar.no_telepon : "",
+      status: pendaftar ? pendaftar.status : "PENDING",
       motivasi: pendaftar ? pendaftar.motivasi : "",
     },
     resolver: zodResolver(pendaftar ? recruitmentSchema.partial() : recruitmentSchema),
   })
 
-  const {mutateAsync: handleAdd, isPending: isPendingAdd} = useAddPendaftar(token as string)
+  const {mutateAsync: handleAdd, isPending: isPendingAdd} = useAddPendaftar(token as string, setIsAddDialogOpen);
   const {
     mutateAsync: handleUpdate,
     isPending: isPendingUpdate
@@ -174,6 +176,29 @@ const PendaftaranDialog = ({pendaftar}: PendaftaranDialogProps) => {
 
           <FormField
             control={form.control}
+            name="status"
+            render={({field}) => (
+              <FormItem>
+                <FormLabel>Status</FormLabel>
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <FormControl>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Pilih status"/>
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="PENDING">Pending</SelectItem>
+                    <SelectItem value="ACCEPTED">Accepted</SelectItem>
+                    <SelectItem value="REJECTED">Rejected</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage/>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
             name="no_telepon"
             render={({field}) => (
               <FormItem>
@@ -203,7 +228,7 @@ const PendaftaranDialog = ({pendaftar}: PendaftaranDialogProps) => {
 
         <div className="flex justify-end space-x-2">
           <Button type="submit" disabled={isPendingAdd || isPendingUpdate}>
-            {isPendingAdd ? "Tambah" : isPendingUpdate ? "Update" : "Menyimpan"} Mahasiswa
+            {pendaftar ? "Update" : "Add"} Mahasiswa
           </Button>
         </div>
       </form>
