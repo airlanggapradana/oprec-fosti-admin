@@ -4,6 +4,7 @@ import {useExportAsExcel, useFetchRecruitment} from "@/utils/query.ts";
 import Cookies from "js-cookie";
 import {ChartBarDefault} from "@/components/chart-bar-vertical.tsx";
 import {Button} from "@/components/ui/button.tsx";
+import TabelPendaftaran from "@/components/TabelPendaftaran.tsx";
 
 const Overview = () => {
   const token = Cookies.get("token");
@@ -12,6 +13,7 @@ const Overview = () => {
   }
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const {data: recruitment, error, isLoading} = useFetchRecruitment(token as string)
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const {mutateAsync: handleExport, isPending} = useExportAsExcel(token as string);
 
   const dailyRegistrations = Array.from({length: 10}).map((_, i) => {
@@ -151,6 +153,8 @@ const Overview = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <TabelPendaftaran/>
     </div>
   );
 };
