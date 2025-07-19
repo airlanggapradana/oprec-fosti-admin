@@ -97,12 +97,12 @@ const Overview = () => {
             <CardTitle className="text-sm font-medium">Aktivitas Terakhir</CardTitle>
             <Pen className="h-4 w-4 text-muted-foreground"/>
           </CardHeader>
-          <CardContent className="max-h-[530px] overflow-y-auto">
+          <CardContent className="h-[530px] overflow-y-auto">
             {isLoading ? (
               <div className="text-2xl font-bold animate-pulse">Loading...</div>
             ) : error ? (
               <div className="text-red-500 text-2xl font-bold">Error loading data</div>
-            ) : recruitment ? (
+            ) : Array.isArray(recruitment) && recruitment.length > 0 ? (
               recruitment
                 .filter(d => {
                   const createdAt = new Date(d.createdAt);
@@ -132,7 +132,11 @@ const Overview = () => {
                   </div>
                 ))
             ) : (
-              <div className="text-2xl font-bold">Belum ada aktivitas...</div>
+              <div className="flex items-center justify-center h-full">
+                <h3 className="text-xl font-bold text-muted-foreground">
+                  belum ada aktivitas...
+                </h3>
+              </div>
             )}
           </CardContent>
         </Card>

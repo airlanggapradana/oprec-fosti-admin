@@ -17,6 +17,7 @@ export function useFetchRecruitment(token: string) {
         method: "GET",
       }).then(res => res.data as RecruitmentResponse);
       return response.data;
+      // return []
     }
   })
 }
