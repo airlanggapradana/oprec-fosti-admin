@@ -2,6 +2,8 @@
 
 Repositori ini berisi kode sumber untuk Dasbor Admin Pendaftaran Terbuka (Oprec) FOSTI. Dasbor ini dibuat untuk mengelola data pendaftar, dengan fitur untuk melihat, menambah, mengedit, dan menghapus data. Proyek ini dibangun menggunakan **React**, **Vite**, **TypeScript**, dan **Tailwind CSS**.
 
+*Demo Login dengan username* **adminadmin** *password* **admin123**
+
 ![Logo FOSTI](src/logo_putih.png)
 
 ## ✨ Fitur Utama
