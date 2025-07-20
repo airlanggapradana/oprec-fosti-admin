@@ -13,7 +13,7 @@ const Overview = () => {
     return <div className="text-red-500">You must be logged in to view this page.</div>;
   }
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const {data, error, isLoading} = useQuery(useFetchRecruitment(token as string, 1, 100));
+  const {data, error, isLoading} = useQuery(useFetchRecruitment(token as string, 1, 200));
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const {mutateAsync: handleExport, isPending} = useExportAsExcel(token as string);
 

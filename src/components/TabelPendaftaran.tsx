@@ -1,6 +1,6 @@
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {CheckIcon, Edit, Eye, Plus, Search, Trash2} from "lucide-react";
+import {ArrowLeft, ArrowRight, CheckIcon, Edit, Eye, Plus, Search, Trash2} from "lucide-react";
 import {useDeletePendaftar, useFetchRecruitment, useSeleksiPendaftar} from "@/utils/query.ts";
 import Cookies from "js-cookie";
 import PendaftaranDialog from "@/components/PendaftaranDialog.tsx";
@@ -24,8 +24,6 @@ import {
   PaginationContent,
   PaginationItem,
   PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
 } from "@/components/ui/pagination"
 
 const TabelPendaftaran = () => {
@@ -188,13 +186,32 @@ const TabelPendaftaran = () => {
           <Pagination>
             <PaginationContent>
               <PaginationItem>
-                <PaginationPrevious onClick={() => setPage(page - 1)}/>
+                <Button
+                  variant="secondary"
+                  onClick={() => setPage(page - 1)}
+                  className="flex items-center"
+                  disabled={page === 1}
+                >
+                  <span>
+                    <ArrowLeft className="h-4 w-4"/>
+                  </span>
+                  Previous
+                </Button>
               </PaginationItem>
               <PaginationItem>
                 <PaginationLink>{page}</PaginationLink>
               </PaginationItem>
               <PaginationItem>
-                <PaginationNext onClick={() => setPage(page + 1)}/>
+                <Button
+                  variant="secondary"
+                  onClick={() => setPage(page + 1)}
+                  className="flex items-center"
+                >
+                  Next
+                  <span>
+                    <ArrowRight className="h-4 w-4"/>
+                  </span>
+                </Button>
               </PaginationItem>
             </PaginationContent>
           </Pagination>

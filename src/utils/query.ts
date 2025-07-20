@@ -73,7 +73,7 @@ export function useAddPendaftar(token: string, setIsAddDialogOpen: React.Dispatc
   })
 }
 
-export function useUpdatePendaftar(token: string) {
+export function useUpdatePendaftar(token: string, setIsEditDialogOpen: React.Dispatch<React.SetStateAction<boolean>>) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async ({pendaftar, id}: { pendaftar: Partial<RecruitmentSchema>, id: string }) => {
@@ -91,6 +91,7 @@ export function useUpdatePendaftar(token: string) {
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({queryKey: ["recruitment"]});
+      setIsEditDialogOpen(false); // Close the dialog after successful update
     }
   })
 }

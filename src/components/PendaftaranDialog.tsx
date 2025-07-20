@@ -37,7 +37,7 @@ const PendaftaranDialog = ({pendaftar, setIsAddDialogOpen}: PendaftaranDialogPro
   const {
     mutateAsync: handleUpdate,
     isPending: isPendingUpdate
-  } = useUpdatePendaftar(token as string);
+  } = useUpdatePendaftar(token as string, setIsAddDialogOpen);
 
   const onSubmit: SubmitHandler<RecruitmentSchema | Partial<RecruitmentSchema>> = async (data) => {
     if (pendaftar) {
