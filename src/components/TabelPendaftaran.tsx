@@ -40,7 +40,7 @@ const TabelPendaftaran = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const {data, error, isLoading} = useQuery(useFetchRecruitment(token as string, page, 20));
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const {data: data2} = useQuery(useFetchRecruitment(token as string, 1, 100));
+  const {data: data2} = useQuery(useFetchRecruitment(token as string));
 
   const recruitment = data?.data;
 
@@ -83,7 +83,7 @@ const TabelPendaftaran = () => {
       <Card>
         <CardHeader>
           <CardTitle>Daftar Mahasiswa</CardTitle>
-          <CardDescription>Menampilkan {recruitment?.length} dari {data2?.data.length} pendaftar.</CardDescription>
+          <CardDescription>Menampilkan {recruitment?.length} dari {data2?.total} pendaftar.</CardDescription>
           <div className="flex items-center space-x-2">
             <Search className="h-4 w-4 text-muted-foreground"/>
             <Input
@@ -258,6 +258,10 @@ const TabelPendaftaran = () => {
                 <div>
                   <Label className="text-sm font-medium">Program Studi</Label>
                   <p className="text-sm text-muted-foreground">{selectedMahasiswa.prodi}</p>
+                </div>
+                <div>
+                  <Label className="text-sm font-medium">Status</Label>
+                  <p className="text-sm text-muted-foreground">{selectedMahasiswa.status}</p>
                 </div>
               </div>
             </div>
