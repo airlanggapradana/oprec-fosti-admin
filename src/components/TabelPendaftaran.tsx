@@ -25,6 +25,7 @@ import {
   PaginationItem,
   PaginationLink,
 } from "@/components/ui/pagination"
+import {TableLoadingSkeleton} from "@/components/TableLoadingSkeleton.tsx";
 
 const TabelPendaftaran = () => {
   const [searchTerm, setSearchTerm] = useState("")
@@ -168,8 +169,9 @@ const TabelPendaftaran = () => {
                 </TableRow>
               ) : isLoading ? (
                 <TableRow>
-                  <TableCell colSpan={7} className="text-center">
-                    Loading...
+                  <TableCell colSpan={7}>
+                    <TableLoadingSkeleton rows={20} columns={7} showFilters={false} showHeader={false}
+                                          variant={"compact"}/>
                   </TableCell>
                 </TableRow>
               ) : (
