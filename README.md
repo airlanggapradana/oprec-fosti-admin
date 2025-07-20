@@ -71,5 +71,3 @@ Pastikan Anda telah menginstal [Node.js](https://nodejs.org/) (disarankan versi 
     ```
 
     Aplikasi sekarang akan berjalan di `http://localhost:5173` (atau port lain yang tersedia).
-
-## Struktur Proyek
