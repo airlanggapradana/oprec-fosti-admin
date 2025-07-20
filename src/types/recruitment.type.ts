@@ -1,6 +1,8 @@
 export interface RecruitmentResponse {
   message: string;
   data: Pendaftar[];
+  page: number;
+  total: number;
 }
 
 export interface Pendaftar {

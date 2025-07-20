@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 import {ChartBarDefault} from "@/components/chart-bar-vertical.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import TabelPendaftaran from "@/components/TabelPendaftaran.tsx";
+import {useQuery} from "@tanstack/react-query";
 
 const Overview = () => {
   const token = Cookies.get("token");
@@ -12,9 +13,11 @@ const Overview = () => {
     return <div className="text-red-500">You must be logged in to view this page.</div>;
   }
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const {data: recruitment, error, isLoading} = useFetchRecruitment(token as string)
+  const {data, error, isLoading} = useQuery(useFetchRecruitment(token as string, 1, 100));
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const {mutateAsync: handleExport, isPending} = useExportAsExcel(token as string);
+
+  const recruitment = data?.data;
 
   const dailyRegistrations = Array.from({length: 10}).map((_, i) => {
     const date = new Date();

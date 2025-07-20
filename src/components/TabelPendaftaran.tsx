@@ -14,10 +14,19 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog.tsx";
-import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card.tsx";
+import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card.tsx";
 import {Input} from "@/components/ui/input.tsx";
 import {Label} from "@/components/ui/label.tsx";
 import {Badge} from "@/components/ui/badge.tsx";
+import {useQuery} from "@tanstack/react-query";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"
 
 const TabelPendaftaran = () => {
   const [searchTerm, setSearchTerm] = useState("")
@@ -25,12 +34,17 @@ const TabelPendaftaran = () => {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false)
+  const [page, setPage] = useState(1);
   const token = Cookies.get("token");
   if (!token) {
     return <div className="text-red-500">You must be logged in to view this page.</div>;
   }
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const {data: recruitment, error, isLoading} = useFetchRecruitment(token as string);
+  const {data, error, isLoading} = useQuery(useFetchRecruitment(token as string, page, 20));
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const {data: data2} = useQuery(useFetchRecruitment(token as string, 1, 100));
+
+  const recruitment = data?.data;
 
   const filteredMahasiswa = recruitment?.filter(
     (m) =>
@@ -71,7 +85,7 @@ const TabelPendaftaran = () => {
       <Card>
         <CardHeader>
           <CardTitle>Daftar Mahasiswa</CardTitle>
-          <CardDescription>Total {recruitment?.length} mahasiswa terdaftar</CardDescription>
+          <CardDescription>Menampilkan {recruitment?.length} dari {data2?.data.length} pendaftar.</CardDescription>
           <div className="flex items-center space-x-2">
             <Search className="h-4 w-4 text-muted-foreground"/>
             <Input
@@ -170,6 +184,21 @@ const TabelPendaftaran = () => {
             </TableBody>
           </Table>
         </CardContent>
+        <CardFooter>
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious onClick={() => setPage(page - 1)}/>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink>{page}</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationNext onClick={() => setPage(page + 1)}/>
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </CardFooter>
       </Card>
 
       {/* Edit Dialog */}
