@@ -10,7 +10,7 @@ import {BarChart3, LogOut, Users} from "lucide-react";
 import {useLocation, useNavigate} from "react-router";
 import Cookies from "js-cookie";
 import {useTheme} from "@/components/theme-provider.tsx";
-import logoPutih from "../LOGO FOSTI PUTIH.png"
+import logoPutih from "../logo_putih.png"
 import logo from "../logo.png"
 
 const menuItems = [
