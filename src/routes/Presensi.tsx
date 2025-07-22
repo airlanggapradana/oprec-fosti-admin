@@ -1,11 +1,11 @@
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card.tsx";
-import {Search, Users} from "lucide-react";
+import {Newspaper, Search, Users} from "lucide-react";
 import {Input} from "@/components/ui/input.tsx";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
 import {Badge} from "@/components/ui/badge.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {TableLoadingSkeleton} from "@/components/TableLoadingSkeleton.tsx";
-import {useFetchAcceptedPendaftar, useFetchPresensi, usePresensi} from "@/utils/query.ts";
+import {useExportAsExcel, useFetchAcceptedPendaftar, useFetchPresensi, usePresensi} from "@/utils/query.ts";
 import Cookies from "js-cookie";
 import {useState} from "react";
 
@@ -38,6 +38,9 @@ const Presensi = () => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
   } = useFetchAcceptedPendaftar(token as string)
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const {mutateAsync: handleExport, isPending} = useExportAsExcel(token as string, "Presensi");
+
   // filter mahasiswa yang belum melakukan presensi
   const noPresensiMahasiswa = pendaftar?.filter(m => m.presensi === null || m.presensi === undefined);
 
@@ -54,7 +57,12 @@ const Presensi = () => {
     <div className="flex items-start gap-5 w-full">
       <Card>
         <CardHeader>
-          <CardTitle>Daftar Presensi</CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle>Daftar Presensi</CardTitle>
+            <Button onClick={() => handleExport()} disabled={isPending}>
+              <span><Newspaper/></span>{isPending ? "Exporting..." : "Export as Excel"}
+            </Button>
+          </div>
           <CardDescription>Menampilkan {pendaftar?.length} pendaftar.</CardDescription>
           <div className="flex items-center space-x-2">
             <Search className="h-4 w-4 text-muted-foreground"/>

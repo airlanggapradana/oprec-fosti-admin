@@ -15,7 +15,7 @@ const Overview = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const {data, error, isLoading} = useQuery(useFetchRecruitment(token as string));
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const {mutateAsync: handleExport, isPending} = useExportAsExcel(token as string);
+  const {mutateAsync: handleExport, isPending} = useExportAsExcel(token as string, "Recruitment");
 
   const recruitment = data?.data;
 

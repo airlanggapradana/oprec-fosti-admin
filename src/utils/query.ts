@@ -83,11 +83,11 @@ export function usePresensi(token: string, status: "HADIR" | "TIDAK_HADIR" | "IZ
   })
 }
 
-export function useExportAsExcel(token: string) {
+export function useExportAsExcel(token: string, exportType: "Recruitment" | "Presensi") {
   return useMutation({
     mutationFn: async () => {
       const response = await axios.get(
-        `${VITE_BASE_API_URL}/api/excel/export`,
+        `${VITE_BASE_API_URL}/api/excel/export/${exportType}`,
         {
           responseType: "blob", // Important for handling binary data
           headers: {
@@ -100,7 +100,7 @@ export function useExportAsExcel(token: string) {
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement("a");
       link.href = url;
-      link.setAttribute("download", "DataOprecFOSTI_2025.xlsx"); // Set the file name
+      link.setAttribute("download", `${exportType === "Recruitment" ? "DataOprecFOSTI_2025.xlsx" : "PresensiOprecFOSTI2025.xlsx"}`); // Set the file name
       document.body.appendChild(link);
       link.click();
 
