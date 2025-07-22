@@ -1,9 +1,18 @@
-import {Outlet} from "react-router";
+import {Outlet, useNavigate} from "react-router";
 import {SidebarInset, SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar.tsx";
 import AdminSidebar from "@/components/AdminSidebar.tsx";
 import {ModeToggle} from "@/components/mode-toggle.tsx";
+import Cookies from "js-cookie";
+import {useEffect} from "react";
 
 const RootLayout = () => {
+  const navigate = useNavigate();
+  const token = Cookies.get("token");
+  useEffect(() => {
+    if (!token) {
+      navigate("/login");
+    }
+  }, [navigate, token]);
   return (
     <SidebarProvider>
       <AdminSidebar/>
