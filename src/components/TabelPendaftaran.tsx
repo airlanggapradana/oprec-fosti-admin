@@ -164,7 +164,7 @@ const TabelPendaftaran = () => {
               ) : error ? (
                 <TableRow>
                   <TableCell colSpan={7} className="text-red-500 text-center">
-                    Error loading data
+                    {error.message}
                   </TableCell>
                 </TableRow>
               ) : isLoading ? (

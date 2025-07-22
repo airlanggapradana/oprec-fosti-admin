@@ -1,5 +1,5 @@
 import {queryOptions, useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
-import axios from "axios";
+import axios, {AxiosError} from "axios";
 import {VITE_BASE_API_URL, VITE_PUBLIC_KEY, VITE_SERVICE_ID, VITE_TEMPLATE_ID} from "@/env.ts";
 import type {RecruitmentResponse} from "@/types/recruitment.type.ts";
 import type {RecruitmentSchema} from "@/zod/validation.schema.ts";
@@ -10,15 +10,22 @@ export function useFetchRecruitment(token: string, page?: number, limit?: number
   return queryOptions({
     queryKey: ["recruitment", {page, limit}],
     queryFn: async () => {
-      const url = `${VITE_BASE_API_URL}/api/recruitment${(page !== undefined && limit !== undefined) ? `?limit=${limit}&page=${page}` : ""}`;
-      return await axios.get(url, {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
-        },
-        method: "GET",
-      }).then(res => res.data as RecruitmentResponse);
-    }
+      try {
+        const url = `${VITE_BASE_API_URL}/api/recruitment${(page !== undefined && limit !== undefined) ? `?limit=${limit}&page=${page}` : ""}`;
+        return await axios.get(url, {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+          method: "GET",
+        }).then(res => res.data as RecruitmentResponse);
+      } catch (e) {
+        if (e instanceof AxiosError) {
+          throw new Error(e.response?.data?.message || e.message);
+        }
+        throw new Error(`Error fetching recruitment data: ${e instanceof Error ? e.message : "Unknown error"}`);
+      }
+    },
   })
 }
 
@@ -26,16 +33,23 @@ export function useFetchAcceptedPendaftar(token: string, page?: number, limit?: 
   return useQuery({
     queryKey: ["acceptedPendaftar"],
     queryFn: async () => {
-      return await axios.get(
-        `${VITE_BASE_API_URL}/api/recruitment?${(page !== undefined && limit !== undefined) ? `limit=${limit}&page=${page}` : ""}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
+      try {
+        return await axios.get(
+          `${VITE_BASE_API_URL}/api/recruitment?${(page !== undefined && limit !== undefined) ? `limit=${limit}&page=${page}` : ""}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`,
+            },
+            method: "GET",
           },
-          method: "GET",
-        },
-      ).then(res => res.data as RecruitmentResponse);
+        ).then(res => res.data as RecruitmentResponse);
+      } catch (e) {
+        if (e instanceof AxiosError) {
+          throw new Error(e.response?.data?.message || e.message);
+        }
+        throw new Error(`Error fetching accepted pendaftar data: ${e instanceof Error ? e.message : "Unknown error"}`);
+      }
     },
     select: (data) => {
       return data.data.filter((pendaftar) => pendaftar.status === "ACCEPTED");
@@ -47,16 +61,23 @@ export function useFetchPresensi(token: string) {
   return useQuery({
     queryKey: ["presensi"],
     queryFn: async () => {
-      return await axios.get(
-        `${VITE_BASE_API_URL}/api/presensi`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
+      try {
+        return await axios.get(
+          `${VITE_BASE_API_URL}/api/presensi`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`,
+            },
+            method: "GET",
           },
-          method: "GET",
-        },
-      ).then(res => res.data as PresensiAPIResponse);
+        ).then(res => res.data as PresensiAPIResponse);
+      } catch (e) {
+        if (e instanceof AxiosError) {
+          throw new Error(e.response?.data?.message || e.message);
+        }
+        throw new Error(`Error fetching presensi data: ${e instanceof Error ? e.message : "Unknown error"}`);
+      }
     }
   })
 }

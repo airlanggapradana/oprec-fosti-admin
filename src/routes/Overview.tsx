@@ -46,7 +46,7 @@ const Overview = () => {
             {isLoading ? (
               <div className="text-2xl font-bold animate-pulse">Loading...</div>
             ) : error ? (
-              <div className="text-red-500 text-2xl font-bold">Error loading data</div>
+              <div className="text-red-500 text-lg font-bold">{error.message}</div>
             ) : recruitment ? (
               <>
                 <div className="text-2xl font-bold">{recruitment.length}</div>
@@ -74,7 +74,7 @@ const Overview = () => {
             {isLoading ? (
               <div className="text-2xl font-bold animate-pulse">Loading...</div>
             ) : error ? (
-              <div className="text-red-500 text-2xl font-bold">Error loading data</div>
+              <div className="text-red-500 text-lg font-bold">{error.message}</div>
             ) : recruitment ? (
               <>
                 <div className="text-2xl font-bold">{[...new Set(recruitment.map(d => d.fakultas))].length}</div>
@@ -104,7 +104,7 @@ const Overview = () => {
             {isLoading ? (
               <div className="text-2xl font-bold animate-pulse">Loading...</div>
             ) : error ? (
-              <div className="text-red-500 text-2xl font-bold">Error loading data</div>
+              <div className="text-red-500 text-lg font-bold">{error.message}</div>
             ) : Array.isArray(recruitment) && recruitment.length > 0 ? (
               recruitment
                 .filter(d => {

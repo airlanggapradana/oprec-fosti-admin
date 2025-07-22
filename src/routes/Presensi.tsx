@@ -144,7 +144,7 @@ const Presensi = () => {
               ) : errorPendaftar ? (
                 <TableRow>
                   <TableCell colSpan={7} className="text-red-500 text-center">
-                    Error loading data
+                    {errorPendaftar.message}
                   </TableCell>
                 </TableRow>
               ) : isLoadingPendaftar ? (
@@ -175,7 +175,7 @@ const Presensi = () => {
             {isLoadingPresensi ? (
               <div className="text-2xl font-bold animate-pulse">Loading...</div>
             ) : errorPresensi ? (
-              <div className="text-red-500 text-2xl font-bold">Error loading data</div>
+              <div className="text-red-500 text-2xl font-bold">{errorPresensi.message}</div>
             ) : presensi ? (
               <>
                 <div className="text-2xl font-bold">{presensi.filter(d => d.status === "HADIR").length}</div>
@@ -197,7 +197,7 @@ const Presensi = () => {
             {isLoadingPresensi ? (
               <div className="text-2xl font-bold animate-pulse">Loading...</div>
             ) : errorPresensi ? (
-              <div className="text-red-500 text-2xl font-bold">Error loading data</div>
+              <div className="text-red-500 text-2xl font-bold">{errorPresensi.message}</div>
             ) : presensi ? (
               <>
                 <div className="text-2xl font-bold">{presensi.filter(d => d.status === "IZIN").length}</div>
@@ -219,7 +219,7 @@ const Presensi = () => {
             {isLoadingPresensi ? (
               <div className="text-2xl font-bold animate-pulse">Loading...</div>
             ) : errorPresensi ? (
-              <div className="text-red-500 text-2xl font-bold">Error loading data</div>
+              <div className="text-red-500 text-2xl font-bold">{errorPresensi.message}</div>
             ) : presensi ? (
               <>
                 <div className="text-2xl font-bold">{presensi.filter(d => d.status === "TIDAK_HADIR").length}</div>
