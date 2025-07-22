@@ -19,4 +19,15 @@ export interface Pendaftar {
   status: 'PENDING' | 'ACCEPTED' | 'REJECTED';
   createdAt: Date;
   updatedAt: Date;
+  presensi: Presensi | null;
+}
+
+export interface Presensi {
+  id: string;
+  id_recruitment: string;
+  nama: string;
+  waktu_datang: Date | null;
+  status: string;
+  createdAt: Date;
+  updatedAt: Date;
 }

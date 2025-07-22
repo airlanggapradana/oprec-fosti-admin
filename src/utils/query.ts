@@ -1,23 +1,84 @@
-import {useMutation, useQueryClient, queryOptions} from "@tanstack/react-query";
+import {queryOptions, useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import axios from "axios";
 import {VITE_BASE_API_URL, VITE_PUBLIC_KEY, VITE_SERVICE_ID, VITE_TEMPLATE_ID} from "@/env.ts";
 import type {RecruitmentResponse} from "@/types/recruitment.type.ts";
 import type {RecruitmentSchema} from "@/zod/validation.schema.ts";
 import type {SeleksiResponse} from "@/types/seleksi.type.ts";
+import type {PresensiAPIResponse} from "@/types/presensi.type.ts";
 
 export function useFetchRecruitment(token: string, page?: number, limit?: number) {
   return queryOptions({
     queryKey: ["recruitment", {page, limit}],
     queryFn: async () => {
       const url = `${VITE_BASE_API_URL}/api/recruitment${(page !== undefined && limit !== undefined) ? `?limit=${limit}&page=${page}` : ""}`;
-      const response = await axios.get(url, {
+      return await axios.get(url, {
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`,
         },
         method: "GET",
       }).then(res => res.data as RecruitmentResponse);
-      return response;
+    }
+  })
+}
+
+export function useFetchAcceptedPendaftar(token: string, page?: number, limit?: number) {
+  return useQuery({
+    queryKey: ["acceptedPendaftar"],
+    queryFn: async () => {
+      return await axios.get(
+        `${VITE_BASE_API_URL}/api/recruitment?${(page !== undefined && limit !== undefined) ? `limit=${limit}&page=${page}` : ""}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+          method: "GET",
+        },
+      ).then(res => res.data as RecruitmentResponse);
+    },
+    select: (data) => {
+      return data.data.filter((pendaftar) => pendaftar.status === "ACCEPTED");
+    }
+  })
+}
+
+export function useFetchPresensi(token: string) {
+  return useQuery({
+    queryKey: ["presensi"],
+    queryFn: async () => {
+      return await axios.get(
+        `${VITE_BASE_API_URL}/api/presensi`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+          method: "GET",
+        },
+      ).then(res => res.data as PresensiAPIResponse);
+    }
+  })
+}
+
+export function usePresensi(token: string, status: "HADIR" | "TIDAK_HADIR" | "IZIN") {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (id_recruitment: string) => {
+      await axios.post(`${VITE_BASE_API_URL}/api/presensi`, {
+        id_recruitment,
+        status
+      }, {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        method: "POST"
+      })
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({queryKey: ["presensi"]});
+      await queryClient.invalidateQueries({queryKey: ["acceptedPendaftar"]});
     }
   })
 }
@@ -151,6 +212,7 @@ export function useSeleksiPendaftar(token: string) {
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({queryKey: ["recruitment"]});
+      await queryClient.invalidateQueries({queryKey: ["acceptedPendaftar"]});
     }
   })
 }

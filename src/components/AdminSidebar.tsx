@@ -6,7 +6,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem, SidebarRail
 } from "@/components/ui/sidebar.tsx";
-import {BarChart3, LogOut, Users} from "lucide-react";
+import {BarChart3, LogOut, Notebook, Users} from "lucide-react";
 import {useLocation, useNavigate} from "react-router";
 import Cookies from "js-cookie";
 import {useTheme} from "@/components/theme-provider.tsx";
@@ -23,6 +23,11 @@ const menuItems = [
     title: "Mahasiswa",
     icon: Users,
     id: "/mahasiswa",
+  },
+  {
+    title: "Presensi",
+    icon: Notebook,
+    id: "/presensi",
   },
 ]
 

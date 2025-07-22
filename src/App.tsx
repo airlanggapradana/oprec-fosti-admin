@@ -6,6 +6,7 @@ import {useEffect} from "react";
 import Login from "@/routes/Login.tsx";
 import TabelPendaftaran from "@/components/TabelPendaftaran.tsx";
 import NotFound from "@/routes/NotFound.tsx";
+import Presensi from "@/routes/Presensi.tsx";
 
 function App() {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ function App() {
       <Route element={<RootLayout/>}>
         <Route path={"/"} element={<Overview/>}/>
         <Route path={"/mahasiswa"} element={<TabelPendaftaran/>}/>
+        <Route path={"/presensi"} element={<Presensi/>}/>
       </Route>
       <Route path={"/login"} element={<Login/>}/>
       <Route path={"*"} element={<NotFound/>}/>
