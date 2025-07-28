@@ -334,7 +334,7 @@ const Presensi = () => {
               ) : (
                 <TableRow>
                   <TableCell colSpan={7} className="text-center">
-                    Belum ada mahasiswa yang diterima.
+                    Belum ada mahasiswa yang melakukan presensi.
                   </TableCell>
                 </TableRow>
               )}

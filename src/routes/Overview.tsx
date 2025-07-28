@@ -19,6 +19,15 @@ const Overview = () => {
 
   const recruitment = data?.data;
 
+  const recentActivs = recruitment
+    ?.filter(d => {
+      const createdAt = new Date(d.createdAt);
+      const tenDaysAgo = new Date();
+      tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
+      return createdAt >= tenDaysAgo;
+    })
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+
   const dailyRegistrations = Array.from({length: 10}).map((_, i) => {
     const date = new Date();
     date.setDate(date.getDate() - i);
@@ -105,15 +114,8 @@ const Overview = () => {
               <div className="text-2xl font-bold animate-pulse">Loading...</div>
             ) : error ? (
               <div className="text-red-500 text-lg font-bold">{error.message}</div>
-            ) : Array.isArray(recruitment) && recruitment.length > 0 ? (
-              recruitment
-                .filter(d => {
-                  const createdAt = new Date(d.createdAt);
-                  const tenDaysAgo = new Date();
-                  tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
-                  return createdAt >= tenDaysAgo;
-                })
-                .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+            ) : recentActivs && recentActivs.length > 0 ? (
+              recentActivs
                 .map((d) => (
                   <div key={d.id} className="flex items-center gap-3 py-2 border-b last:border-0">
                     <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
