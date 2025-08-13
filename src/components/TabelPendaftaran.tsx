@@ -262,6 +262,10 @@ const TabelPendaftaran = () => {
                   <p className="text-sm text-muted-foreground">{selectedMahasiswa.prodi}</p>
                 </div>
                 <div>
+                  <Label className="text-sm font-medium">Motivasi</Label>
+                  <p className="text-sm text-muted-foreground">{selectedMahasiswa.motivasi}</p>
+                </div>
+                <div>
                   <Label className="text-sm font-medium">Status</Label>
                   <p className="text-sm text-muted-foreground">{selectedMahasiswa.status}</p>
                 </div>
