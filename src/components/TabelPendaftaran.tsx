@@ -1,7 +1,11 @@
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {ArrowLeft, ArrowRight, CheckIcon, Edit, Eye, Plus, Search, Trash2} from "lucide-react";
-import {useDeletePendaftar, useFetchRecruitment, useSeleksiPendaftar} from "@/utils/query.ts";
+import {ArrowLeft, ArrowRight, CheckIcon, Edit, Eye, Plus, Search, Trash2, XIcon} from "lucide-react";
+import {
+  useDeletePendaftar,
+  useFetchRecruitment,
+  useSeleksiPendaftar,
+} from "@/utils/query.ts";
 import Cookies from "js-cookie";
 import PendaftaranDialog from "@/components/PendaftaranDialog.tsx";
 import {useState} from "react";
@@ -56,7 +60,9 @@ const TabelPendaftaran = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const {mutateAsync: handleDelete, isPending} = useDeletePendaftar(token as string);
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const {mutateAsync: handleSeleksi, isPending: isPendingAccepted} = useSeleksiPendaftar(token as string);
+  const {mutateAsync: handleSeleksiDiterima, isPending: isPendingAccepted} = useSeleksiPendaftar(token as string, true);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const {mutateAsync: handleSeleksiDitolak, isPending: isPendingRejected} = useSeleksiPendaftar(token as string, false);
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -140,9 +146,17 @@ const TabelPendaftaran = () => {
                           variant={"ghost"}
                           size="sm"
                           disabled={m.status === 'ACCEPTED' || m.status === 'REJECTED' || isPendingAccepted}
-                          onClick={() => handleSeleksi(m.id)}
+                          onClick={() => handleSeleksiDiterima(m.id)}
                         >
                           <CheckIcon className="h-4 w-4"/>
+                        </Button>
+                        <Button
+                          variant={"ghost"}
+                          size="sm"
+                          disabled={m.status === 'ACCEPTED' || m.status === 'REJECTED' || isPendingRejected}
+                          onClick={() => handleSeleksiDitolak(m.id)}
+                        >
+                          <XIcon className="h-4 w-4"/>
                         </Button>
                         <Button
                           variant="ghost"

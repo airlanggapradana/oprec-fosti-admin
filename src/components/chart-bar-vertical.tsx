@@ -35,7 +35,7 @@ const chartConfig = {
 
 export function ChartBarDefault({chartData}: { chartData: ChartData[] }) {
   return (
-    <Card>
+    <Card className="h-full">
       <CardHeader>
         <CardTitle>Bar Chart</CardTitle>
         <CardDescription>10 hari terakhir</CardDescription>

@@ -199,15 +199,15 @@ export function useDeletePendaftar(token: string) {
   })
 }
 
-export function useSeleksiPendaftar(token: string) {
+export function useSeleksiPendaftar(token: string, isAccepted: boolean) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (id: string) => {
       try {
-        const response = await axios.put(
+        return await axios.put(
           `${VITE_BASE_API_URL}/api/recruitment/seleksi/${id}`,
           {
-            status: "ACCEPTED"
+            status: isAccepted ? "ACCEPTED" : "REJECTED",
           },
           {
             headers: {
@@ -218,15 +218,15 @@ export function useSeleksiPendaftar(token: string) {
           },
         ).then(res => res.data as SeleksiResponse);
 
-        await axios.post(`https://api.emailjs.com/api/v1.0/email/send`, {
-          service_id: VITE_SERVICE_ID,
-          template_id: VITE_TEMPLATE_ID,
-          user_id: VITE_PUBLIC_KEY,
-          template_params: {
-            nama: response.data.nama,
-            email: response.data.email,
-          }
-        })
+        // await axios.post(`https://api.emailjs.com/api/v1.0/email/send`, {
+        //   service_id: VITE_SERVICE_ID,
+        //   template_id: VITE_TEMPLATE_ID,
+        //   user_id: VITE_PUBLIC_KEY,
+        //   template_params: {
+        //     nama: response.data.nama,
+        //     email: response.data.email,
+        //   }
+        // })
       } catch (e) {
         throw new Error(`Error during selection: ${e instanceof Error ? e.message : "Unknown error"}`);
       }
