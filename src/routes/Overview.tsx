@@ -103,8 +103,8 @@ const Overview = () => {
         </Card>
 
       </div>
-      <div className="grid gap-4 md:grid-cols-4">
-        <Card className="col-span-1 ">
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-4">
+        <Card className="col-span-2 sm:col-span-1 w-full">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Aktivitas Terakhir</CardTitle>
             <Pen className="h-4 w-4 text-muted-foreground"/>

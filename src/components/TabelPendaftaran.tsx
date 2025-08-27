@@ -248,7 +248,7 @@ const TabelPendaftaran = () => {
 
       {/* View Dialog */}
       <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="sm:max-w-2xl">
           <DialogHeader>
             <DialogTitle>Detail Mahasiswa</DialogTitle>
           </DialogHeader>
@@ -256,12 +256,12 @@ const TabelPendaftaran = () => {
             <div className="grid gap-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label className="text-sm font-medium">NIM</Label>
-                  <p className="text-sm text-muted-foreground">{selectedMahasiswa.nim}</p>
-                </div>
-                <div>
                   <Label className="text-sm font-medium">Nama</Label>
                   <p className="text-sm text-muted-foreground">{selectedMahasiswa.nama}</p>
+                </div>
+                <div>
+                  <Label className="text-sm font-medium">NIM</Label>
+                  <p className="text-sm text-muted-foreground">{selectedMahasiswa.nim}</p>
                 </div>
                 <div>
                   <Label className="text-sm font-medium">Email</Label>
@@ -272,12 +272,12 @@ const TabelPendaftaran = () => {
                   <p className="text-sm text-muted-foreground">{selectedMahasiswa.fakultas}</p>
                 </div>
                 <div>
-                  <Label className="text-sm font-medium">Program Studi</Label>
-                  <p className="text-sm text-muted-foreground">{selectedMahasiswa.prodi}</p>
-                </div>
-                <div>
                   <Label className="text-sm font-medium">Motivasi</Label>
                   <p className="text-sm text-muted-foreground">{selectedMahasiswa.motivasi}</p>
+                </div>
+                <div>
+                  <Label className="text-sm font-medium">Program Studi</Label>
+                  <p className="text-sm text-muted-foreground">{selectedMahasiswa.prodi}</p>
                 </div>
                 <div>
                   <Label className="text-sm font-medium">Status</Label>
