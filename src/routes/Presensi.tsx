@@ -190,7 +190,7 @@ const Presensi = () => {
                 <div className="text-2xl font-bold animate-pulse">Loading...</div>
               ) : errorPresensi ? (
                 <div className="text-red-500 text-2xl font-bold">{errorPresensi.message}</div>
-              ) : presensi ? (
+              ) : presensi && presensi.length > 0 ? (
                 <>
                   <div className="text-2xl font-bold">{presensi.filter(d => d.status === "HADIR").length}</div>
                   <p className="text-xs text-muted-foreground">
@@ -198,7 +198,7 @@ const Presensi = () => {
                   </p>
                 </>
               ) : (
-                <div className="text-2xl font-bold">Belum ada presensi...</div>
+                <div className="text-base text-gray-500 font-semibold">Belum ada presensi...</div>
               )}
             </CardContent>
           </Card>
@@ -212,7 +212,7 @@ const Presensi = () => {
                 <div className="text-2xl font-bold animate-pulse">Loading...</div>
               ) : errorPresensi ? (
                 <div className="text-red-500 text-2xl font-bold">{errorPresensi.message}</div>
-              ) : presensi ? (
+              ) : presensi && presensi.length > 0 ? (
                 <>
                   <div className="text-2xl font-bold">{presensi.filter(d => d.status === "IZIN").length}</div>
                   <p className="text-xs text-muted-foreground">
@@ -220,7 +220,7 @@ const Presensi = () => {
                   </p>
                 </>
               ) : (
-                <div className="text-2xl font-bold">Belum ada presensi...</div>
+                <div className="text-base text-gray-500 font-semibold">Belum ada presensi...</div>
               )}
             </CardContent>
           </Card>
@@ -234,7 +234,7 @@ const Presensi = () => {
                 <div className="text-2xl font-bold animate-pulse">Loading...</div>
               ) : errorPresensi ? (
                 <div className="text-red-500 text-2xl font-bold">{errorPresensi.message}</div>
-              ) : presensi ? (
+              ) : presensi && presensi.length > 0 ? (
                 <>
                   <div className="text-2xl font-bold">{presensi.filter(d => d.status === "TIDAK_HADIR").length}</div>
                   <p className="text-xs text-muted-foreground">
@@ -242,7 +242,7 @@ const Presensi = () => {
                   </p>
                 </>
               ) : (
-                <div className="text-2xl font-bold">Belum ada presensi...</div>
+                <div className="text-base text-gray-500 font-semibold">Belum ada presensi...</div>
               )}
             </CardContent>
           </Card>
