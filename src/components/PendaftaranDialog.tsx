@@ -12,10 +12,11 @@ import {Textarea} from "@/components/ui/textarea.tsx";
 
 interface PendaftaranDialogProps {
   setIsAddDialogOpen: React.Dispatch<React.SetStateAction<boolean>>
+  setIsEditDialogOpen: React.Dispatch<React.SetStateAction<boolean>>
   pendaftar?: Pendaftar
 }
 
-const PendaftaranDialog = ({pendaftar, setIsAddDialogOpen}: PendaftaranDialogProps) => {
+const PendaftaranDialog = ({pendaftar, setIsAddDialogOpen, setIsEditDialogOpen}: PendaftaranDialogProps) => {
   const token = Cookies.get("token");
   const form = useForm<RecruitmentSchema | Partial<RecruitmentSchema>>({
     defaultValues: {
@@ -37,7 +38,7 @@ const PendaftaranDialog = ({pendaftar, setIsAddDialogOpen}: PendaftaranDialogPro
   const {
     mutateAsync: handleUpdate,
     isPending: isPendingUpdate
-  } = useUpdatePendaftar(token as string, setIsAddDialogOpen);
+  } = useUpdatePendaftar(token as string, setIsEditDialogOpen);
 
   const onSubmit: SubmitHandler<RecruitmentSchema | Partial<RecruitmentSchema>> = async (data) => {
     if (pendaftar) {

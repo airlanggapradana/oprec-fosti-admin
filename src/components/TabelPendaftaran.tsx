@@ -82,7 +82,7 @@ const TabelPendaftaran = () => {
               <DialogTitle>Tambah Pendaftar Baru</DialogTitle>
               <DialogDescription>Masukkan informasi pendaftar baru</DialogDescription>
             </DialogHeader>
-            <PendaftaranDialog setIsAddDialogOpen={setIsAddDialogOpen}/>
+            <PendaftaranDialog setIsAddDialogOpen={setIsAddDialogOpen} setIsEditDialogOpen={setIsEditDialogOpen}/>
           </DialogContent>
         </Dialog>
       </div>
@@ -242,7 +242,8 @@ const TabelPendaftaran = () => {
             <DialogDescription>Ubah informasi mahasiswa</DialogDescription>
           </DialogHeader>
           {selectedMahasiswa &&
-              <PendaftaranDialog pendaftar={selectedMahasiswa} setIsAddDialogOpen={setIsAddDialogOpen}/>}
+              <PendaftaranDialog pendaftar={selectedMahasiswa} setIsAddDialogOpen={setIsAddDialogOpen}
+                                 setIsEditDialogOpen={setIsEditDialogOpen}/>}
         </DialogContent>
       </Dialog>
 
