@@ -254,7 +254,7 @@ const TabelPendaftaran = () => {
           </DialogHeader>
           {selectedMahasiswa && (
             <div className="grid gap-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <Label className="text-sm font-medium">Nama</Label>
                   <p className="text-sm text-muted-foreground">{selectedMahasiswa.nama}</p>
@@ -266,6 +266,11 @@ const TabelPendaftaran = () => {
                 <div>
                   <Label className="text-sm font-medium">Email</Label>
                   <p className="text-sm text-muted-foreground">{selectedMahasiswa.email}</p>
+                </div>
+                <div>
+                  <Label className="text-sm font-medium">Gender</Label>
+                  <p
+                    className="text-sm text-muted-foreground capitalize">{selectedMahasiswa.gender.replace(/_/g, " ").toLowerCase()}</p>
                 </div>
                 <div>
                   <Label className="text-sm font-medium">Fakultas</Label>

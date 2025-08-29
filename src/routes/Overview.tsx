@@ -148,7 +148,7 @@ const Overview = () => {
         <div className="col-span-2">
           <ChartBarDefault chartData={dailyRegistrations}/>
         </div>
-        <Card className="col-span-1">
+        <Card className="col-span-2 sm:col-span-1">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Quick Buttons</CardTitle>
             <Settings className="h-4 w-4 text-muted-foreground"/>
