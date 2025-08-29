@@ -154,6 +154,32 @@ const PendaftaranDialog = ({pendaftar, setIsAddDialogOpen, setIsEditDialogOpen}:
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="link_twibbon"
+            render={({field}) => (
+              <FormItem>
+                <FormLabel>Twibbon</FormLabel>
+                <FormControl>
+                  <Input placeholder="e.g link twibbon" {...field} />
+                </FormControl>
+                <FormMessage/>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="link_video"
+            render={({field}) => (
+              <FormItem>
+                <FormLabel>Video</FormLabel>
+                <FormControl>
+                  <Input placeholder="e.g link video" {...field} />
+                </FormControl>
+                <FormMessage/>
+              </FormItem>
+            )}
+          />
 
           <FormField
             control={form.control}
