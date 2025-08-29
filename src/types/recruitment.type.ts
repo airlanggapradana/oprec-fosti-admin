@@ -12,6 +12,8 @@ export interface Pendaftar {
   nim: string;
   no_telepon: string;
   gender: string;
+  link_twibbon: string;
+  link_video: string;
   alamat: string;
   motivasi: string;
   fakultas: string;

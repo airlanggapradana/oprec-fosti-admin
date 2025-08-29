@@ -274,6 +274,50 @@ const TabelPendaftaran = () => {
                     className="text-sm text-muted-foreground capitalize">{selectedMahasiswa.gender.replace(/_/g, " ").toLowerCase()}</p>
                 </div>
                 <div>
+                  <Label className="text-sm font-medium">Twibbon</Label>
+                  <a
+                    href={selectedMahasiswa.link_twibbon}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium transition-colors duration-150"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                            d="M13.828 10.172a4 4 0 010 5.656l-3.535 3.535a4 4 0 01-5.657-5.657l1.414-1.414M10.172 13.828a4 4 0 010-5.656l3.535-3.535a4 4 0 015.657 5.657l-1.414 1.414"/>
+                    </svg>
+                    Link Twibbon
+                  </a>
+                </div>
+                <div>
+                  <Label className="text-sm font-medium">Video</Label>
+                  <a
+                    href={selectedMahasiswa.link_video}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium transition-colors duration-150"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                            d="M13.828 10.172a4 4 0 010 5.656l-3.535 3.535a4 4 0 01-5.657-5.657l1.414-1.414M10.172 13.828a4 4 0 010-5.656l3.535-3.535a4 4 0 015.657 5.657l-1.414 1.414"/>
+                    </svg>
+                    Link Video
+                  </a>
+                </div>
+                <div>
                   <Label className="text-sm font-medium">Fakultas</Label>
                   <p className="text-sm text-muted-foreground">{selectedMahasiswa.fakultas}</p>
                 </div>

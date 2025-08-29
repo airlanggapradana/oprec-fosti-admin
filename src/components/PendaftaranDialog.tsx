@@ -25,6 +25,8 @@ const PendaftaranDialog = ({pendaftar, setIsAddDialogOpen, setIsEditDialogOpen}:
       nama: pendaftar ? pendaftar.nama : "",
       fakultas: pendaftar ? pendaftar.fakultas as "FKIP" | "FEB" | "FH" | "FT" | "FF" | "FP" | "FG" | "FAI" | "FIK" | "FK" | "FKG" | "FKI" : undefined,
       prodi: pendaftar ? pendaftar.prodi : "",
+      link_video: pendaftar ? pendaftar.link_video : "",
+      link_twibbon: pendaftar ? pendaftar.link_twibbon : "",
       alamat: pendaftar ? pendaftar.alamat : "",
       gender: pendaftar ? pendaftar.gender as "LAKI_LAKI" | "PEREMPUAN" : undefined,
       no_telepon: pendaftar ? pendaftar.no_telepon : "",

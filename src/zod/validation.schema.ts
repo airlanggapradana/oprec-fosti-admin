@@ -12,6 +12,8 @@ export const recruitmentSchema = z.object({
   no_telepon: z.string().regex(/^(\+62|62|0)8[1-9][0-9]{6,9}$/, {
     message: "Nomor telepon tidak valid.",
   }),
+  link_twibbon: z.url("link twibbon tidak valid"),
+  link_video: z.url("link video tidak valid"),
   gender: z.enum(["LAKI_LAKI", "PEREMPUAN"]),
   alamat: z.string().nonempty(),
   motivasi: z.string().nonempty(),
