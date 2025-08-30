@@ -67,7 +67,7 @@ const Presensi = () => {
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
-        <Card className="col-span-3 max-h-[490px] overflow-y-auto">
+        <Card className="col-span-1 sm:col-span-3 max-h-[490px] overflow-y-auto">
           <CardHeader>
             <CardTitle>Daftar Mahasiswa</CardTitle>
             <CardDescription>Menampilkan {filteredMahasiswa?.length} pendaftar yang belum melakukan
@@ -179,7 +179,7 @@ const Presensi = () => {
             </Table>
           </CardContent>
         </Card>
-        <div className="flex flex-col items-center w-full gap-5">
+        <div className="grid grid-cols-1 gap-5 w-full">
           <Card className="w-full">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Hadir</CardTitle>
