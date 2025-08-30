@@ -236,7 +236,7 @@ const TabelPendaftaran = () => {
 
       {/* Edit Dialog */}
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="sm:max-w-4xl">
           <DialogHeader>
             <DialogTitle>Edit Mahasiswa</DialogTitle>
             <DialogDescription>Ubah informasi mahasiswa</DialogDescription>
